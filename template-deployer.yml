@@ -6,8 +6,9 @@ labels:
 metadata:
   annotations:
     iconClass: icon-eclipse-che
-    tags: instant-app,jenkins,gogs,nexus,cicd,openshift-eclipse-che,che
+    tags: instant-app,jenkins,gogs,nexus,cicd,openshift-eclipse-che,che,devops,ide
     displayName: "Eclipse Che - Single User"
+    description: "Eclipse Che makes OpenShift development accessible for developer teams, providing one-click developer workspaces and eliminating local environment configuration for your entire team. Che brings your OpenShift application into your development environment and provides an in-browser IDE, allowing you to code, build, test and run applications exactly as they run on production from any machine."
     openshift.io/display-name: "Eclipse Che - Single User"
   name: openshift-eclipse-che
 objects:
