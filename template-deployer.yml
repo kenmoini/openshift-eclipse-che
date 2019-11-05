@@ -5,8 +5,10 @@ labels:
   group: cicd
 metadata:
   annotations:
-    iconClass: icon-jenkins
+    iconClass: icon-eclipse-che
     tags: instant-app,jenkins,gogs,nexus,cicd,openshift-eclipse-che,che
+    displayName: "Eclipse Che - Single User"
+    openshift.io/display-name: "Eclipse Che - Single User"
   name: openshift-eclipse-che
 objects:
 
@@ -37,31 +39,31 @@ objects:
               - '-x'
               - '-c'
               - >
-                oc new-app --template=jenkins-ephemeral && \
+                oc new-app --template=jenkins-ephemeral -l tracker=tempJenkins && \
 
                 oc set resources dc/jenkins --limits=memory=1Gi --requests=memory=512Mi && \
 
                 oc label dc jenkins app=jenkins --overwrite && \
 
-                HOSTNAME=$(oc get route jenkins -o template --template='{{.spec.host}}' | sed "s/jenkins-${CICD_NAMESPACE}.//g") && \
+                HOSTNAME=$(oc get route jenkins -o template --template='{{.spec.host}}' | sed "s/jenkins-${CHE_NAMESPACE}.//g") && \
 
                 oc process -f https://raw.githubusercontent.com/epe105/minishift-addons/master/add-ons/che/templates/che-single-user.yml \
-                  --param PROJECT_NAME=$CICD_NAMESPACE \
+                  --param PROJECT_NAME=$CHE_NAMESPACE \
                   --param DOMAIN_NAME=$HOSTNAME \
                   --param OPENSHIFT_OAUTH_TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
                   | oc create -f - && \
                 oc set resources dc/che --limits=cpu=1,memory=2G --requests=cpu=200m,memory=512Mi && \
 
-                oc delete all --selector app=jenkins
+                oc delete all --selector app=jenkins --selector tracker=tempJenkins
             env:
-              - name: CICD_NAMESPACE
+              - name: CHE_NAMESPACE
                 valueFrom:
                   fieldRef:
                     apiVersion: v1
                     fieldPath: metadata.namespace
             image: 'openshift/origin:v3.11.0'
             imagePullPolicy: IfNotPresent
-            name: cicd-demo-installer-job
+            name: che-demo-installer-job
             resources: {}
             terminationMessagePath: /dev/termination-log
             terminationMessagePolicy: File
