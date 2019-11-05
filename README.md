@@ -8,3 +8,5 @@ This Template can be applied or created to a namespace/project to give developer
 $ oc create -f https://raw.githubusercontent.com/kenmoini/openshift-eclipse-che/master/template-deployer.yml
 $ oc new-app openshift-eclipse-che
 ```
+
+***Suggested package:*** Makes use of [openshift-icons](https://github.com/kenmoini/openshift-icons)
