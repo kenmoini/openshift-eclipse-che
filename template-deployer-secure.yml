@@ -48,7 +48,7 @@ objects:
 
                 HOSTNAME=$(oc get route jenkins -o template --template='{{.spec.host}}' | sed "s/jenkins-${CHE_NAMESPACE}.//g") && \
 
-                oc process -f https://raw.githubusercontent.com/kenmoini/minishift-addons/master/add-ons/che/templates/che-single-user.yml \
+                oc process -f https://raw.githubusercontent.com/kenmoini/minishift-addons/master/add-ons/che/templates/che-single-user-secure.yml \
                   --param PROJECT_NAME=$CHE_NAMESPACE \
                   --param DOMAIN_NAME=$HOSTNAME \
                   --param OPENSHIFT_OAUTH_TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
